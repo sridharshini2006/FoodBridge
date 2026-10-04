@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<link rel="icon" href="data:,">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>FoodBridge — Online Food Donation System</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Work+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<header class="topbar">
+  <div class="topbar__inner">
+    <button class="brand" data-view="home" aria-label="FoodBridge home">
+      <span class="brand__mark">FB</span>
+      <span class="brand__name">Food<em>Bridge</em></span>
+    </button>
+
+    <nav class="nav" id="mainNav">
+      <button class="nav__link" data-view="home">Home</button>
+      <button class="nav__link" data-view="donor">Donor</button>
+      <button class="nav__link" data-view="receiver">Receiver</button>
+      <button class="nav__link" data-view="volunteer">Volunteer</button>
+      <button class="nav__link" data-view="admin">Admin</button>
+    </nav>
+
+    <div class="topbar__actions">
+      <span class="session" id="sessionBadge" hidden></span>
+      <button class="btn btn--ghost" data-view="login">Log in</button>
+      <button class="btn btn--solid" data-view="register">Register</button>
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="app">
+
+  <!-- ============ HOME ============ -->
+  <section class="view" id="view-home" data-view-panel="home">
+    <section class="hero">
+      <div class="hero__copy">
+        <p class="eyebrow">Pending&nbsp;→&nbsp;Accepted&nbsp;→&nbsp;Collected&nbsp;→&nbsp;Delivered</p>
+        <h1>Surplus food finds<br>its way, <em>on time.</em></h1>
+        <p class="hero__lede">FoodBridge connects donors, orphanages &amp; NGOs, and volunteers on one
+          tracked board — so a plate that would spoil on a counter reaches a table before it does.</p>
+        <div class="hero__cta">
+          <button class="btn btn--solid btn--lg" data-view="donor">List a donation</button>
+          <button class="btn btn--outline btn--lg" data-view="receiver">Browse donations</button>
+        </div>
+        <div class="hero__stats" id="heroStats"></div>
+      </div>
+      <div class="hero__panel">
+        <div class="tracker-card">
+          <p class="tracker-card__title">Live status board</p>
+          <div id="heroTracker"></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <p class="section__eyebrow">Who's on the board</p>
+      <h2 class="section__title">Four roles, one workflow</h2>
+      <div class="grid grid--4">
+        <article class="feature-card">
+          <span class="feature-card__num">01</span>
+          <h3>Donor Portal</h3>
+          <p>Register, list food type, quantity, location and the window it's available in, then watch its status move.</p>
+        </article>
+        <article class="feature-card">
+          <span class="feature-card__num">02</span>
+          <h3>Receiver Dashboard</h3>
+          <p>Orphanages and NGOs search open listings, request what they need, and schedule pickup.</p>
+        </article>
+        <article class="feature-card">
+          <span class="feature-card__num">03</span>
+          <h3>Volunteer Coordination</h3>
+          <p>Sign up, take an assigned route, and confirm collection and delivery as it happens.</p>
+        </article>
+        <article class="feature-card">
+          <span class="feature-card__num">04</span>
+          <h3>Admin Controls</h3>
+          <p>Verify donors, oversee every request, and step in when something needs resolving.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section section--tight">
+      <p class="section__eyebrow">Why it matters</p>
+      <h2 class="section__title">Built to close the gap fast</h2>
+      <div class="grid grid--3">
+        <article class="benefit-card">
+          <h3>Less waste</h3>
+          <p>Centralised, searchable listings mean donations get matched before they spoil.</p>
+        </article>
+        <article class="benefit-card">
+          <h3>Full traceability</h3>
+          <p>Every donation carries a visible status, from the moment it's listed to the moment it's delivered.</p>
+        </article>
+        <article class="benefit-card">
+          <h3>Stronger accountability</h3>
+          <p>Admin verification and activity logs keep donors, receivers and volunteers accountable.</p>
+        </article>
+      </div>
+    </section>
+  </section>
+
+  <!-- ============ LOGIN ============ -->
+  <section class="view" id="view-login" data-view-panel="login">
+    <section class="auth">
+      <form class="auth-card" id="loginForm" novalidate>
+        <p class="section__eyebrow">Welcome back</p>
+        <h2 class="section__title">Log in to FoodBridge</h2>
+
+        <label class="field">
+          <span>I am a</span>
+          <select name="role" required>
+            <option value="donor">Donor</option>
+            <option value="receiver">Receiver / NGO</option>
+            <option value="volunteer">Volunteer</option>
+            <option value="admin">Admin</option>
+          </select>
+        </label>
+        <label class="field">
+          <span>Name</span>
+          <input type="text" name="name" placeholder="e.g. Priya Nair" required>
+        </label>
+        <label class="field">
+          <span>Email</span>
+          <input type="email" name="email" placeholder="you@example.com" required>
+        </label>
+        <label class="field">
+          <span>Password</span>
+          <input type="password" name="password" placeholder="••••••••" required minlength="4">
+        </label>
+
+        <button type="submit" class="btn btn--solid btn--block">Log in</button>
+        <p class="auth-card__switch">New here? <button type="button" class="link-btn" data-view="register">Create an account</button></p>
+      </form>
+    </section>
+  </section>
+
+  <!-- ============ REGISTER ============ -->
+  <section class="view" id="view-register" data-view-panel="register">
+    <section class="auth">
+      <form class="auth-card" id="registerForm" novalidate>
+        <p class="section__eyebrow">Join the board</p>
+        <h2 class="section__title">Create your account</h2>
+
+        <label class="field">
+          <span>I am a</span>
+          <select name="role" required>
+            <option value="donor">Donor</option>
+            <option value="receiver">Receiver / NGO</option>
+            <option value="volunteer">Volunteer</option>
+          </select>
+        </label>
+        <label class="field">
+          <span>Full name / Organisation</span>
+          <input type="text" name="name" placeholder="e.g. Sunrise Orphanage" required>
+        </label>
+        <label class="field">
+          <span>Email</span>
+          <input type="email" name="email" placeholder="you@example.com" required>
+        </label>
+        <label class="field">
+          <span>Phone</span>
+          <input type="tel" name="phone" placeholder="98765 43210" required>
+        </label>
+        <label class="field">
+  <span>District</span>
+  <select name="district" required>
+    <option value="">Select District</option>
+    <option>Erode</option>
+    <option>Salem</option>
+    <option>Coimbatore</option>
+    <option>Chennai</option>
+    <option>Madurai</option>
+    <option>Tiruppur</option>
+    <option>Namakkal</option>
+    <option>Karur</option>
+    <option>Trichy</option>
+    <option>Thanjavur</option>
+  </select>
+</label>
+        <label class="field">
+          <span>Password</span>
+          <input type="password" name="password" placeholder="••••••••" required minlength="4">
+        </label>
+
+        <button type="submit" class="btn btn--solid btn--block">Create account</button>
+        <p class="auth-card__switch">Already registered? <button type="button" class="link-btn" data-view="login">Log in</button></p>
+      </form>
+    </section>
+  </section>
+
+  <!-- ============ DONOR ============ -->
+  <section class="view" id="view-donor" data-view-panel="donor">
+    <section class="dash-head">
+      <div>
+        <p class="section__eyebrow">Donor Portal</p>
+        <h2 class="section__title">List food, track where it goes</h2>
+      </div>
+    </section>
+
+    <div class="dash-grid">
+      <form class="card form-card" id="donationForm">
+        <h3>New donation</h3>
+        <label class="field">
+          <span>Your name</span>
+          <input type="text" name="donorName" placeholder="e.g. Ganesh Caterers" required>
+        </label>
+        <label class="field">
+          <span>Food type</span>
+          <input type="text" name="foodType" placeholder="e.g. Cooked rice &amp; sambar, 20 kg" required>
+        </label>
+        <div class="field-row">
+          <label class="field">
+            <span>Quantity</span>
+            <input type="text" name="quantity" placeholder="e.g. Serves 40" required>
+          </label>
+          <label class="field">
+  <span>District</span>
+  <select name="district" required>
+    <option value="">Select District</option>
+    <option>Erode</option>
+    <option>Salem</option>
+    <option>Coimbatore</option>
+    <option>Chennai</option>
+    <option>Madurai</option>
+    <option>Tiruppur</option>
+    <option>Namakkal</option>
+    <option>Karur</option>
+    <option>Trichy</option>
+    <option>Thanjavur</option>
+  </select>
+</label>
+        </div>
+        <div class="field-row">
+          <label class="field">
+            <span>Available from</span>
+            <input type="datetime-local" name="availableFrom" required>
+          </label>
+          <label class="field">
+            <span>Available until</span>
+            <input type="datetime-local" name="availableTo" required>
+          </label>
+        </div>
+        <label class="field">
+          <span>Notes (optional)</span>
+          <textarea name="notes" rows="2" placeholder="Packaging, allergens, pickup instructions…"></textarea>
+        </label>
+        <button type="submit" class="btn btn--solid btn--block">Publish donation</button>
+      </form>
+
+      <div class="card list-card">
+        <div class="list-card__head">
+          <h3>Your listings</h3>
+          <span class="pill" id="donorCount">0</span>
+        </div>
+        <div id="donorList" class="donation-list"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ RECEIVER ============ -->
+  <section class="view" id="view-receiver" data-view-panel="receiver">
+    <section class="dash-head">
+      <div>
+        <p class="section__eyebrow">Receiver Dashboard</p>
+        <h2 class="section__title">Browse, request, schedule pickup</h2>
+      </div>
+      <label class="field field--search">
+        <span>Search by food or location</span>
+        <input type="search" id="receiverSearch" placeholder="e.g. rice, Erode…">
+      </label>
+    </section>
+
+    <div class="tabs" id="receiverTabs">
+      <button class="tab is-active" data-filter="Pending">Available</button>
+      <button class="tab" data-filter="mine">My requests</button>
+    </div>
+
+    <div id="receiverList" class="donation-grid"></div>
+  </section>
+
+  <!-- ============ VOLUNTEER ============ -->
+  <section class="view" id="view-volunteer" data-view-panel="volunteer">
+    <section class="dash-head">
+      <div>
+        <p class="section__eyebrow">Volunteer Coordination</p>
+        <h2 class="section__title">Your routes, your confirmations</h2>
+      </div>
+    </section>
+
+    <div class="tabs" id="volunteerTabs">
+      <button class="tab is-active" data-filter="Accepted">Ready for pickup</button>
+      <button class="tab" data-filter="mine">Assigned to me</button>
+    </div>
+
+    <div id="volunteerList" class="donation-grid"></div>
+  </section>
+
+  <!-- ============ ADMIN ============ -->
+  <section class="view" id="view-admin" data-view-panel="admin">
+    <section class="dash-head">
+      <div>
+        <p class="section__eyebrow">Admin Controls</p>
+        <h2 class="section__title">Oversee the whole board</h2>
+      </div>
+    </section>
+
+    <div class="grid grid--4 stat-row" id="adminStats"></div>
+
+    <div class="admin-grid">
+      <div class="card">
+        <div class="list-card__head">
+          <h3>All donations</h3>
+        </div>
+        <div class="table-wrap">
+          <table class="table" id="adminTable">
+            <thead>
+              <tr><th>Food</th><th>Donor</th><th>Location</th><th>Status</th><th></th></tr>
+            </thead>
+            <tbody id="adminTableBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="list-card__head">
+          <h3>Donor verification</h3>
+        </div>
+        <div id="donorVerifyList" class="verify-list"></div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <p>Online Food Donation System — front-end prototype. No data leaves this browser tab.</p>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
